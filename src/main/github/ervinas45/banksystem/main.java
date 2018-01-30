@@ -8,9 +8,21 @@ public class main {
 		
 		ArrayList<Integer> accounts = new ArrayList<Integer>();
 		DNB dnb = new DNB("Vilnius");
+		SWED swed = new SWED("Kaunas");
 		accounts.add(dnb.createAccount("Ervinas", "test"));
-		accounts.add(dnb.createAccount("Tomas", "test"));
+		accounts.add(dnb.createAccount("Karolis", "test"));
+		accounts.add(swed.createAccount("Tomas", "test"));
 		
+		System.out.println(dnb);
+		System.out.println(swed);
+		
+		dnb.destroyAccount(2);
+		swed.destroyAccount(3);
+		
+		System.out.println(dnb);
+		System.out.println(swed);
+		
+		System.out.println(accounts.size());
 //		dnb.addFunds(1, 200);
 //		dnb.addFunds(2, 100);
 //		dnb.withdrawFunds(1, 100);
@@ -28,8 +40,7 @@ public class main {
 //			}
 //		}
 //		
-//		System.out.println(dnb);
-//		System.out.println(accounts.size());
+
 
 	}
 
