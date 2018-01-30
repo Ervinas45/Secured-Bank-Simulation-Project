@@ -30,7 +30,7 @@ public class SWED implements Bank{
 				hmap.remove(accountID);
 			}
 			else{
-				System.out.println("Sorry, no account based on this name was not found!");
+				System.out.println("Sorry, no account based on this name was found!");
 			}
 	}
 	
@@ -46,7 +46,7 @@ public class SWED implements Bank{
 				}
 			}
 			else{
-				System.out.println("Sorry, no account based on this name was not found!");
+				System.out.println("Sorry, no account based on this name was found!");
 			}
 	}
 	
@@ -62,7 +62,7 @@ public class SWED implements Bank{
 				}
 			}
 			else{
-				System.out.println("Sorry, no account based on this name was not found!");
+				System.out.println("Sorry, no account based on this name was found!");
 			}
 	}
 	
