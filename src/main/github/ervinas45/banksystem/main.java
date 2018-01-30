@@ -11,10 +11,10 @@ public class main {
 		accounts.add(dnb.createAccount("Ervinas", "test"));
 		accounts.add(dnb.createAccount("Tomas", "test"));
 		
-		dnb.addFunds(1, 200);
-		dnb.addFunds(2, 100);
-		dnb.withdrawFunds(1, 100);
-		dnb.withdrawFunds(2, 50);
+//		dnb.addFunds(1, 200);
+//		dnb.addFunds(2, 100);
+//		dnb.withdrawFunds(1, 100);
+//		dnb.withdrawFunds(2, 50);
 //		System.out.println(dnb);
 //		System.out.println(accounts.size());
 //		
