@@ -27,7 +27,6 @@ public class Server {
 	public static class MyHandler implements HttpHandler {
 
         @Override
-
         public void handle(HttpExchange he) throws IOException {
             String response = "Response";
             he.sendResponseHeaders(200, response.length());
@@ -49,6 +48,7 @@ public class Server {
             OutputStream os = he.getResponseBody();
             os.write(response.getBytes());
             os.close();
+            is.close();
         }
 	}
 }
