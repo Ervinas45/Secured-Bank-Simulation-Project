@@ -7,10 +7,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
+import java.util.Date;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -36,8 +40,9 @@ public class Server {
         @Override
         public void handle(HttpExchange he) throws IOException {
 
-        	String token;
 			String line;
+			String request;
+			JSONObject req;
 			
             InputStream is = he.getRequestBody();
             InputStreamReader r = new InputStreamReader(is, "UTF-8");
@@ -47,60 +52,51 @@ public class Server {
             while ((line=br.readLine())!=null) {
                 buf.append(line);
             }
+            request = buf.toString();
+            req = JSONObject.fromObject(request);
             
-            JSONObject jsonObject = JSONObject.fromObject(buf.toString());
+            if(req.containsKey("unique_id") && req.containsKey("password")){
+            	System.out.println("1");
+            	req = userCheck(req);
+            }
+            else{
+            	System.out.println("2");
+            	req = verifyToken(req);
+            }
             
-            String uniqueID =  (String) jsonObject.get("unique_id");
-            String password = (String) jsonObject.get("password");
             
-            //for(String t : splittedRequest){
-            //	System.out.println(t);
-            //}
             
-//          if(checkCredentials(int uniqueID, String password) == true){
-//        	  token = generateToken();
-//            Headers headers = he.getResponseHeaders();
-//            headers.add("test", token);
-//            he.sendResponseHeaders(200, 0);
-//            OutputStream os = he.getResponseBody();
-//            String response = "";
-//            os.write(response.getBytes());
-//            os.close();
-//            is.close();
-//        }
-//        else{
-//        	  Headers headers = he.getResponseHeaders();
-//            headers.add("ERROR: ", "Bad ID or Password");
-//            he.sendResponseHeaders(400, 0);
-//            OutputStream os = he.getResponseBody();
-//            String response = "ERROR: Bad ID or Password";
-//            os.write(response.getBytes());
-//            os.close();
-//            is.close();
-//        }
-            token = generateToken(password);
             Headers headers = he.getResponseHeaders();
             headers.add("Content-Type", "application/json");
             he.sendResponseHeaders(200, 0); 
-            
-            JSONObject jsonRespond = new JSONObject();
-            jsonRespond.put("token", token);
-            
             OutputStream os = he.getResponseBody();
-            os.write(jsonRespond.toString().getBytes("utf-8"));
+            os.write(req.toString().getBytes("utf-8"));
             os.flush();
             os.close();
             is.close();
         }
 	}
 	
-	public static String generateToken(String password){
-		
+	public static JSONObject userCheck(JSONObject req){
+     
+        String uniqueID =  (String) req.get("unique_id");
+        String password = (String) req.get("password");
+        String token = generateToken(password, uniqueID);
+        JSONObject response = new JSONObject();
+        response.put("token", token);
+		return response;
+       
+	}
+	
+	public static String generateToken(String password, String uniqueID){
 		String token = null;
+
 		try {
-		    Algorithm algorithm = Algorithm.HMAC256("password");
+		    Algorithm algorithm = Algorithm.HMAC256("secret");
 		    token = JWT.create()
-		        .withIssuer("auth0")
+		        .withIssuer(uniqueID)
+		        .withIssuedAt(new Date())
+		        .withExpiresAt(new Date(System.currentTimeMillis() + 5000))
 		        .sign(algorithm);
 		} catch (UnsupportedEncodingException exception){
 		    //UTF-8 encoding not supported
@@ -109,6 +105,27 @@ public class Server {
 		}
 		return token;
 
+	}
+	
+	public static JSONObject verifyToken(JSONObject req){
+		String token = req.getString("token");
+		JSONObject response = new JSONObject();
+		response.put("answer", "true");
+		
+		try {
+		    Algorithm algorithm = Algorithm.HMAC256("secret");
+		    JWTVerifier verifier = JWT.require(algorithm)
+		    	
+		        .build(); //Reusable verifier instance
+		    DecodedJWT jwt = verifier.verify(token);
+		} catch (UnsupportedEncodingException exception){
+		    //UTF-8 encoding not supported
+		} catch (JWTVerificationException exception){
+			response.remove("answer");
+			response.put("answer", "false");
+		}
+		return response;
+		
 	}
 	
 //	public static boolean checkCredentials(String uniqueID, String password){
