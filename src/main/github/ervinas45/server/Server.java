@@ -25,7 +25,7 @@ import net.sf.json.JSONObject;
 public class Server {
 
 	public static void main(String[] args) throws IOException {
-		HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 80), 0);
+		HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 100), 0);
 		System.out.println("server started at 80");
 		server.createContext("/test", new MyHandler());
 //		server.createContext("/echoHeader", new EchoHeaderHandler());
@@ -55,16 +55,22 @@ public class Server {
             request = buf.toString();
             req = JSONObject.fromObject(request);
             
-            if(req.containsKey("unique_id") && req.containsKey("password")){
-            	System.out.println("1");
-            	req = userCheck(req);
-            }
-            else{
+            if(req.containsKey("token") && req.size() == 1){
             	System.out.println("2");
             	req = verifyToken(req);
+            } 
+            if(req.containsKey("unique_id") && req.size() == 1){
+            	System.out.println("Checking unique_id");
+            	req = DatabaseComm.checkIfUserExists(req.getString("unique_id"));
             }
-            
-            
+            if(req.containsKey("unique_id") && req.containsKey("password")){
+            	System.out.println("Logging");
+            	if(DatabaseComm.login(req.getString("unique_id"), req.getString("password")) == true){
+            		String token = generateToken(req.getString("unique_id"));
+            		req.clear();
+            		req.put("token", token);
+            	}
+            }
             
             Headers headers = he.getResponseHeaders();
             headers.add("Content-Type", "application/json");
@@ -77,18 +83,18 @@ public class Server {
         }
 	}
 	
-	public static JSONObject userCheck(JSONObject req){
-     
-        String uniqueID =  (String) req.get("unique_id");
-        String password = (String) req.get("password");
-        String token = generateToken(password, uniqueID);
-        JSONObject response = new JSONObject();
-        response.put("token", token);
-		return response;
-       
-	}
+//	public static JSONObject userCheck(JSONObject req){
+//     
+//        String uniqueID =  (String) req.get("unique_id");
+//        String password = (String) req.get("password");
+//        String token = generateToken(password, uniqueID);
+//        JSONObject response = new JSONObject();
+//        response.put("token", token);
+//		return response;
+//       
+//	}
 	
-	public static String generateToken(String password, String uniqueID){
+	public static String generateToken(String uniqueID){
 		String token = null;
 
 		try {
@@ -115,7 +121,7 @@ public class Server {
 		try {
 		    Algorithm algorithm = Algorithm.HMAC256("secret");
 		    JWTVerifier verifier = JWT.require(algorithm)
-		    	
+
 		        .build(); //Reusable verifier instance
 		    DecodedJWT jwt = verifier.verify(token);
 		} catch (UnsupportedEncodingException exception){
