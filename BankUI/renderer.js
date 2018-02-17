@@ -5,8 +5,7 @@ const queryString = require('query-string');
 const http = require('http');
 const submitFormButton = document.querySelector("#login");
 const testTokenButton = document.getElementById('tokenTestButton');
-const remote = require('electron')
-
+const remote = require('electron');
 const functions = require('./functions.js');
 
 let Token;
@@ -60,10 +59,10 @@ testTokenButton.addEventListener('click', function(event){
 function sendRequest(variable){
 
   var postData = {};
+
   if(variable == "unique_id"){
     var value = document.getElementById(variable).value;
-    remote.
-    postData[variable] = value;
+    postData['unique_id'] = value;
     alert(JSON.stringify(postData));
   }
   if(variable == "password"){
