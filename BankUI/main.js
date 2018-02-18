@@ -11,9 +11,6 @@ const url = require('url')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
-let uniqueID;
-module.exports.uniqueID = uniqueID;
-
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600})
@@ -37,6 +34,9 @@ function createWindow () {
   })
 }
 
+app.once('ready-to-show', () => {
+  mainWindow.show()
+})
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
