@@ -8,7 +8,7 @@ function checkResponse(response){
     changeWindow("login.html"); 
   }
   if(response === "token"){
-    changeWindow("main.html");
+    changeWindow("home.html");
   }
   if(response === "false"){
     changeWindow("index.html");
