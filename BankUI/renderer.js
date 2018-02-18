@@ -5,11 +5,11 @@ const queryString = require('query-string');
 const http = require('http');
 const remote = require('electron');
 const functions = require('./functions.js');
+const Store = require('electron-store');
 
-const os = require('os');
-const localStorage = require('electron-json-storage');
+const store = new Store();
 
-localStorage.setDataPath(os.tmpdir());
+
 let Token;
 let Response;
 let ID;
@@ -22,31 +22,21 @@ function sendRequest(variable){
   if(variable == "unique_id"){
     var value = document.getElementById(variable).value;
     postData['unique_id'] = value;
-    localStorage.set('session', { unique_id: value }, function(error) {
-      if (error) throw error;
-    });
+
+    store.set('unique_id', value);
   }
 
   if(variable == "password"){
 
     var value = document.getElementById(variable).value;
-
-    //random skipping this part
-    localStorage.get('session', function(error, data) {
-      if (error) throw error;
-    
-      console.log("A");
-    });
+    var unique_id = store.get('unique_id');
 
     postData = {
-      // 'unique_id' : unique_id,
+      'unique_id' : unique_id,
       'password' : value
     }
 
-    alert(JSON.stringify(postData));
   }
-  
-  console.log(JSON.stringify(postData));
   var options = {
     hostname: '127.0.0.1',
     port: 100,
@@ -64,8 +54,17 @@ function sendRequest(variable){
     res.setEncoding('utf8');
     res.on('data', (chunk) => {
       var response = JSON.parse(`${chunk}`);
-      Response = response.answer;
-      functions.checkResponse(Response);
+      if(response.token != null){
+        store.set('token', response.token);
+        console.log(response.token);
+        functions.checkResponse("token");
+      }
+      else{
+        Response = response.answer;
+        console.log(Response);
+        functions.checkResponse(Response);
+      }
+
     });
     res.on('end', () => {
       console.log('No more data in response.')
@@ -79,8 +78,6 @@ function sendRequest(variable){
   // write data to request body
   req.write(JSON.stringify(postData));
   req.end();
-
-  console.log(postData);
 }
 
 // submitFormButton.addEventListener("submit", function(event){
