@@ -3,58 +3,17 @@
 // All of the Node.js APIs are available in this process.
 const queryString = require('query-string');
 const http = require('http');
-const submitFormButton = document.querySelector("#login");
-const testTokenButton = document.getElementById('tokenTestButton');
 const remote = require('electron');
 const functions = require('./functions.js');
 
+const os = require('os');
+const localStorage = require('electron-json-storage');
+
+localStorage.setDataPath(os.tmpdir());
 let Token;
 let Response;
 let ID;
 //let Password;
-
-testTokenButton.addEventListener('click', function(event){
-    var data = {
-      'token' : Token
-    }
-    var options = {
-      hostname: '127.0.0.1',
-      port: 100,
-      path: '/test',
-      method: 'POST',
-      body:    JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    console.log(JSON.stringify(data));
-    var req = http.request(options, (res) => {
-      console.log(`STATUS: ${res.statusCode}`);
-      console.log(`HEADERS: ${JSON.stringify(res.headers)}`);
-      res.setEncoding('utf8');
-      res.on('data', (chunk) => {
-
-        var temp = JSON.parse(`${chunk}`);
-        Response = temp.answer;
-        document.getElementById("token").innerHTML = Response;
-        console.log(`${chunk}`);
-
-      });
-      res.on('end', () => {
-        console.log('No more data in response.')
-      })
-    });
-    
-    req.on('error', (e) => {
-      console.log(`problem with request: ${e.message}`);
-    });
-    
-    // write data to request body
-    req.write(JSON.stringify(data));
-    req.end();
-
-    //document.getElementById('token').innerHTML = "Tested";
-})
 
 function sendRequest(variable){
 
@@ -63,16 +22,27 @@ function sendRequest(variable){
   if(variable == "unique_id"){
     var value = document.getElementById(variable).value;
     postData['unique_id'] = value;
-    alert(JSON.stringify(postData));
+    localStorage.set('session', { unique_id: value }, function(error) {
+      if (error) throw error;
+    });
   }
+
   if(variable == "password"){
+
     var value = document.getElementById(variable).value;
-    //Password = variable;
+
+    //random skipping this part
+    localStorage.get('session', function(error, data) {
+      if (error) throw error;
+    
+      console.log("A");
+    });
+
     postData = {
-      'unique_id' : remote.uniqueID,
+      // 'unique_id' : unique_id,
       'password' : value
     }
-    console.log("PPASSOWRD")
+
     alert(JSON.stringify(postData));
   }
   
@@ -96,7 +66,6 @@ function sendRequest(variable){
       var response = JSON.parse(`${chunk}`);
       Response = response.answer;
       functions.checkResponse(Response);
-      document.getElementById("token").innerHTML = Response;
     });
     res.on('end', () => {
       console.log('No more data in response.')
