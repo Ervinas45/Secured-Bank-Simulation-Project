@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script>
+                window.jQuery = window.$ = require('jquery');
+            </script>
+        <script src="./node_modules/popper.js/dist/umd/popper.js"></script>
+        <script src="./node_modules/bootstrap/dist/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    </head>
+    <body>
+        <div class="container">
+            <h2>Hello, <strong id="name_lastname">name lastname</strong></h2>
+            <div id="accordion">
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="background-color: #8bb3d8">
+                        Account Details
+                    </div>
+                    <div id="collapseOne" class="collapse show">
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                    <tbody>
+                                        <tr>
+                                            <td class="text-xl-right">Owner:</td>
+                                            <td id="name_lasname">Name Lastname</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-xl-right">Email:</td>
+                                            <td id="email">email@email.com</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-xl-right">Bank:</td>
+                                            <td id="bank_name">Bank's name</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-xl-right">City:</td>
+                                            <td id="bank_city">Bank's city</td>
+                                        </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="background-color: #8bb3d8">
+                            Funds
+                        </div>
+                    <div id="collapseTwo" class="collapse">
+                        <div class="card-body">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
