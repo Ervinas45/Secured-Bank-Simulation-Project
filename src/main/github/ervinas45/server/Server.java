@@ -55,10 +55,11 @@ public class Server {
             request = buf.toString();
             req = JSONObject.fromObject(request);
             
-            if(req.containsKey("token") && req.size() == 1){
-            	System.out.println("2");
-            	req = verifyToken(req);
-            } 
+//            if(req.containsKey("token") && req.size() == 1){
+//            	String token = req.getString("token");
+//            	System.out.println("2");
+//            	req = verifyToken(token);
+//            } 
             if(req.containsKey("unique_id") && req.size() == 1){
             	System.out.println("Checking unique_id");
             	req = DatabaseComm.checkIfUserExists(req.getString("unique_id"));
@@ -71,6 +72,21 @@ public class Server {
             		req.put("token", token);
             	}
             }
+            if(req.containsKey("unique_id") && req.containsKey("token")){
+            	String id = req.getString("unique_id");
+            	String token = req.getString("token");
+            	System.out.println("Checking token");
+            	
+            	Boolean validation = verifyToken(id,token);
+            	if(validation == false){
+            		req.clear();
+            		req.put("answer", validation);
+            	}
+            	else{
+            		req = DatabaseComm.getData(id);
+            	}
+            }
+            
             Headers headers = he.getResponseHeaders();
             headers.add("Content-Type", "application/json");
             he.sendResponseHeaders(200, 0); 
@@ -100,8 +116,8 @@ public class Server {
 		    Algorithm algorithm = Algorithm.HMAC256("secret");
 		    token = JWT.create()
 		        .withIssuer(uniqueID)
-		        .withIssuedAt(new Date())
-		        .withExpiresAt(new Date(System.currentTimeMillis() + 5000))
+//		        .withIssuedAt(new Date())
+//		        .withExpiresAt(new Date(System.currentTimeMillis() + 5000))
 		        .sign(algorithm);
 		} catch (UnsupportedEncodingException exception){
 		    //UTF-8 encoding not supported
@@ -112,24 +128,20 @@ public class Server {
 
 	}
 	
-	public static JSONObject verifyToken(JSONObject req){
-		String token = req.getString("token");
-		JSONObject response = new JSONObject();
-		response.put("answer", "true");
-		
+	public static Boolean verifyToken(String unique_id,String token){
 		try {
 		    Algorithm algorithm = Algorithm.HMAC256("secret");
 		    JWTVerifier verifier = JWT.require(algorithm)
-
+		    		.withIssuer(unique_id)
+		    	//add expiration date check
 		        .build(); //Reusable verifier instance
 		    DecodedJWT jwt = verifier.verify(token);
 		} catch (UnsupportedEncodingException exception){
 		    //UTF-8 encoding not supported
 		} catch (JWTVerificationException exception){
-			response.remove("answer");
-			response.put("answer", "false");
+			return false;
 		}
-		return response;
+		return true;
 		
 	}
 	
