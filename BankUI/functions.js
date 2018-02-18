@@ -5,11 +5,12 @@ const url = require('url')
 
 function checkResponse(response){
   if(response === "true"){
-    alert("TRUE");
     changeWindow("login.html"); 
   }
-  else{
-    alert("FALSE");
+  if(response === "token"){
+    changeWindow("main.html");
+  }
+  if(response === "false"){
     changeWindow("index.html");
   }
 }
