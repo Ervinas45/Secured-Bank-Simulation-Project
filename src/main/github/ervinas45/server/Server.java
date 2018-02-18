@@ -71,12 +71,11 @@ public class Server {
             		req.put("token", token);
             	}
             }
-            
             Headers headers = he.getResponseHeaders();
             headers.add("Content-Type", "application/json");
             he.sendResponseHeaders(200, 0); 
             OutputStream os = he.getResponseBody();
-            os.write(req.toString().getBytes("utf-8"));
+            os.write(req.toString().getBytes("utf-8"));           
             os.flush();
             os.close();
             is.close();

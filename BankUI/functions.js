@@ -3,7 +3,16 @@ const win = remote.getCurrentWindow();
 const path = require('path')
 const url = require('url')
 
-
+function checkResponse(response){
+  if(response === "true"){
+    alert("TRUE");
+    changeWindow("login.html"); 
+  }
+  else{
+    alert("FALSE");
+    changeWindow("index.html");
+  }
+}
 
 function changeWindow(html){
   win.loadURL(url.format({
@@ -13,15 +22,7 @@ function changeWindow(html){
   }))
 }
 
-function checkResponse(response){
-  if(response == "true"){
-    changeWindow("login.html"); 
-  }
-  else{
-    alert("Unique ID not found!");
-    changeWindow("index.html");
-  }
-}
+
 
 
 
