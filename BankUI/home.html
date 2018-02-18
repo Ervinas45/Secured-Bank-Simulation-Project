@@ -11,7 +11,7 @@
     </head>
     <body>
         <div class="container">
-            <h2>Hello, <strong id="name_lastname">name lastname</strong></h2>
+            <h2>Hello, <strong id="name">name lastname</strong></h2>
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="background-color: #8bb3d8">
@@ -19,39 +19,50 @@
                     </div>
                     <div id="collapseOne" class="collapse show">
                         <div class="card-body">
-                            <table class="table table-hover">
-                                    <tbody>
-                                        <tr>
-                                            <td class="text-xl-right">Owner:</td>
-                                            <td id="name_lasname">Name Lastname</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-xl-right">Email:</td>
-                                            <td id="email">email@email.com</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-xl-right">Bank:</td>
-                                            <td id="bank_name">Bank's name</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="text-xl-right">City:</td>
-                                            <td id="bank_city">Bank's city</td>
-                                        </tr>
-                                    </tbody>
-                            </table>
+                            <div class="row">
+                                <div class="col-sm-4" align="right"><b>Owner:</b></div>
+                                <div class="col-sm-8" id="name_lastname"></div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-sm-4" align="right"><b>Email:</b></div>
+                                <div class="col-sm-8" id="email"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4" align="right"><b>Bank:</b></div>
+                                <div class="col-sm-8" id="bank_name"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4" align="right"><b>City:</b></div>
+                                <div class="col-sm-8" id="bank_city"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4" align="right"><b>Card Type:</b></div>
+                                <div class="col-sm-8" id="type"></div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="background-color: #8bb3d8">
-                            Funds
-                        </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="background-color: #8bb3d8">
+                        Funds
+                    </div>
                     <div id="collapseTwo" class="collapse">
                         <div class="card-body">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                            <div class="row">
+                                <div class="col-sm-4" align="right"><b>Balance:</b></div>
+                                <div class="col-sm-8"><span id="funds"></span><b> EUR</b></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4" align="right"><b>Dept:</b></div>
+                                <div class="col-sm-8"><span id="dept"></span><b> EUR</b></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    <script>
+        require('./userpanelrenderer.js');
+    </script>
     </body>
 </html>
