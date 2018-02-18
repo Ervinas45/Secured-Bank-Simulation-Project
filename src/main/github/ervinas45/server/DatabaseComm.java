@@ -11,6 +11,35 @@ public class DatabaseComm {
 	
     public static final String MYSQL_URL = "jdbc:mysql://localhost:3306/secured_bank?user=admin&password=123456789";
     
+    public static JSONObject getData(String uniqueID){
+    	Connection conn;
+    	PreparedStatement preparedStmt;
+    	ResultSet rs;
+    	JSONObject response = new JSONObject();
+    	try{
+			conn = DriverManager.getConnection(MYSQL_URL);
+	        preparedStmt = conn.prepareStatement("SELECT u.name, u.lastname, u.email, u.city, u.bank, a.type, a.funds, a.dept FROM (select name,lastname,email,city,bank from user_info WHERE user_unique_id = ?) u, (select type,funds,dept from user_bank_account WHERE user_unique_id = ?) a");
+	        preparedStmt.setString(1, uniqueID);
+	        preparedStmt.setString(2, uniqueID);
+	        rs = preparedStmt.executeQuery();
+	        while (rs.next()) {
+	        	response.put("name", rs.getString("name"));
+	        	response.put("lastname", rs.getString("lastname"));
+	        	response.put("email", rs.getString("email"));
+	        	response.put("city", rs.getString("city"));
+	        	response.put("bank", rs.getString("bank"));
+	        	response.put("type", rs.getString("type"));
+	        	response.put("funds", rs.getString("funds"));
+	        	response.put("dept", rs.getString("dept"));
+	        }
+    	}
+		catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+			return (JSONObject) response.put("answer", "Error in database");
+		}
+    	return response;
+    }
+    
     public static Boolean login(String uniqueID, String password){
     	Connection conn;
         PreparedStatement preparedStmt;
