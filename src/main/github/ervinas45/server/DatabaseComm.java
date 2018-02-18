@@ -19,7 +19,7 @@ public class DatabaseComm {
 			conn = DriverManager.getConnection(MYSQL_URL);
 	        preparedStmt = conn.prepareStatement("SELECT unique_id, password FROM users WHERE unique_id = ? AND password = ?");
 	        preparedStmt.setString(1, uniqueID);
-	        preparedStmt.setString(1, password);
+	        preparedStmt.setString(2, password);
 	        rs = preparedStmt.executeQuery();
 	        int count = 0;
 	        while (rs.next()) {
