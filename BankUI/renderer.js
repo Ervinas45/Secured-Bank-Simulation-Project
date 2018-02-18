@@ -9,6 +9,7 @@ const Store = require('electron-store');
 
 const store = new Store();
 
+module.exports.store = store;
 
 let Token;
 let Response;
