@@ -75,7 +75,7 @@
                                     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#add">Add</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#remove">Withdraw</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loan">Take Loan</button>
-                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#payDept">Pay</button>
+                                    <button type="button" class="btn btn-danger" id="payLoan">Pay</button>
                                 </div>
                             </div>
                         </div>
@@ -85,80 +85,80 @@
         </div>
         </div>
 
-        <div class="modal fade" id="add">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-              
-                    <!-- Modal Header -->
-                    <div class="modal-header">
-                      <h4 class="modal-title">Adding Funds</h4>
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-              
-                    <!-- Modal body -->
-                    <div class="modal-body" align="center">
-                        <input type="text" id="moneyToAdd" name="money"><br>
-                    </div>
-              
-                    <!-- Modal footer -->
-                    <div class="modal-footer">
-                        <button type="button" id="addMoney" class="btn btn-success" data-dismiss="modal">Add</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    </div>
-              
-                  </div>
-                </div>
-              </div>
+<div class="modal fade" id="add">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Adding Funds</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+    
+        <!-- Modal body -->
+        <div class="modal-body" align="center">
+            <input type="text" id="moneyToAdd" name="money"><br>
+        </div>
+    
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" id="addMoney" class="btn btn-success" data-dismiss="modal">Add</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    
+        </div>
+    </div>
+    </div>
 
-              <div class="modal fade" id="remove">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                  
-                        <!-- Modal Header -->
-                        <div class="modal-header">
-                          <h4 class="modal-title">Withdraw Funds</h4>
-                          <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                  
-                        <!-- Modal body -->
-                        <div class="modal-body" align="center">
-                            <input type="text" id="moneyToRemove" name="money"><br>
-                        </div>
-                  
-                        <!-- Modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" id="removeMoney" class="btn btn-success" data-dismiss="modal">Withdraw</button>
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                        </div>
-                  
-                      </div>
-                    </div>
-                  </div>
+<div class="modal fade" id="remove">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Withdraw Funds</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+    
+        <!-- Modal body -->
+        <div class="modal-body" align="center">
+            <input type="text" id="moneyToRemove" name="money"><br>
+        </div>
+    
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" id="removeMoney" class="btn btn-success" data-dismiss="modal">Withdraw</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    
+        </div>
+    </div>
+    </div>
 
-                  <div class="modal fade" id="loan">
-                        <div class="modal-dialog">
-                          <div class="modal-content">
-                      
-                            <!-- Modal Header -->
-                            <div class="modal-header">
-                              <h4 class="modal-title">Take Loan</h4>
-                              <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                      
-                            <!-- Modal body -->
-                            <div class="modal-body" align="center">
-                                <input type="text" id="loanToTake" name="money"><br>
-                            </div>
-                      
-                            <!-- Modal footer -->
-                            <div class="modal-footer">
-                                <button type="button" id="addLoan" class="btn btn-success" data-dismiss="modal">Add</button>
-                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                            </div>
-                      
-                          </div>
-                        </div>
-                      </div>
+<div class="modal fade" id="loan">
+    <div class="modal-dialog">
+        <div class="modal-content">
+    
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Take Loan</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+    
+        <!-- Modal body -->
+        <div class="modal-body" align="center">
+            <input type="text" id="loanToTake" name="money"><br>
+        </div>
+    
+        <!-- Modal footer -->
+        <div class="modal-footer">
+            <button type="button" id="addLoan" class="btn btn-success" data-dismiss="modal">Add</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+    
+        </div>
+    </div>
+    </div>
         
     <script src="./userpanelrenderer.js" charset="utf-8"></script>
     </body>
