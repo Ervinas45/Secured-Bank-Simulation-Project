@@ -1,10 +1,9 @@
 const remote = require('./renderer.js');
 const functions = require('./functions.js');
+const transactions = require('./transactions.js');
 const http = require('http');
 
-console.log(remote.store.get('unique_id'));
-
-console.log(remote.store.get('token'));
+const addMoneyButton = document.getElementById('addMoney');
 
 var postData = {
     'unique_id' : remote.store.get('unique_id'),
@@ -45,6 +44,12 @@ var options = {
   // write data to request body
   req.write(JSON.stringify(postData));
   req.end();
+
+
+  addMoneyButton.addEventListener('click', function(){
+    var funds = document.getElementById('moneyToAdd').value;
+    var answer = transactions.addMoney('add', funds);
+  })
 
   function setValues(response){
     document.getElementById('name').innerHTML = response.name;
