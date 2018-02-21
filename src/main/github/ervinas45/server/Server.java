@@ -102,6 +102,22 @@ public class Server {
                 	System.out.println("Money added");
             	}
             }
+            if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("withdraw") && req.size() == 3){
+            	String token = req.getString("token");
+            	Boolean validation = verifyToken(req.getString("unique_id"), token);
+            	System.out.println("MONEY WITHDRAW");
+            	if(validation == false){
+            		req.clear();
+            		req.put("answer", validation);
+            		System.out.println("False in remove");
+            	}
+            	else{
+                	int funds = Integer.parseInt(req.getString("withdraw"));
+                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                	req = DatabaseComm.withdrawFunds(uniqueid, funds);
+                	System.out.println("Money withdrawed");
+            	}
+            }
             
             Headers headers = he.getResponseHeaders();
             headers.add("Content-Type", "application/json");

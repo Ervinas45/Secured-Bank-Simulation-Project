@@ -116,4 +116,24 @@ public class DatabaseComm {
 		return response;
 	}
 	
+	public static JSONObject withdrawFunds(int uniqueid, int funds){
+        Connection conn;
+        PreparedStatement preparedStmt;
+        JSONObject response;
+		try {
+			conn = DriverManager.getConnection(MYSQL_URL);
+	        preparedStmt = conn.prepareStatement("UPDATE `user_bank_account` SET `funds`= funds - ?  WHERE user_unique_id = ?");
+	        preparedStmt.setInt(1, funds);
+	        preparedStmt.setInt(2, uniqueid);
+	        preparedStmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+//			e.printStackTrace();
+		}
+		response = new JSONObject();
+        response.put("answer", "true");
+		return response;
+	}
+	
 }
