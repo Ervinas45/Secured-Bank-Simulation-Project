@@ -11,7 +11,19 @@
     </head>
     <body>
         <div class="container">
-            <h2>Hello, <strong id="name">name lastname</strong></h2>
+            <div class="row">
+                <div class="col">
+                    <h2>Hello, <strong id="name"></strong></h2>
+                </div>
+                <div class="col-md-auto" align="">
+                        <input class="btn btn-info btn-lg" id="submit" type="submit" value="Refresh" onclick="refresh('refresh')">
+                </div>
+                <div class="col-md-auto" align="">
+                        <input class="btn btn-info btn-lg" id="submit" type="submit" value="Logout" onclick="logout('logout')">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
             <div id="accordion">
                 <div class="card">
                     <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" style="background-color: #8bb3d8">
@@ -42,6 +54,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
                 <div class="card">
                     <div class="card-header" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" style="background-color: #8bb3d8">
                         Funds
@@ -56,13 +69,45 @@
                                 <div class="col-sm-4" align="right"><b>Dept:</b></div>
                                 <div class="col-sm-8"><span id="dept"></span><b> EUR</b></div>
                             </div>
+                            <div class="row">
+                                <div class="col-4"></div>
+                                <div class="col-md-auto offset-md-3">
+                                    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addMoney">Add</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#withdrawMoney">Withdraw</button>
+                                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#payDept">Pay</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    <script>
-        require('./userpanelrenderer.js');
-    </script>
+        </div>
+
+        <div class="modal fade" id="addMoney">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+              
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <h4 class="modal-title">Adding Funds</h4>
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+              
+                    <!-- Modal body -->
+                    <div class="modal-body" align="center">
+                        <input type="text" name="money"><br>
+                    </div>
+              
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Add</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    </div>
+              
+                  </div>
+                </div>
+              </div>
+    <script src="./userpanelrenderer.js" charset="utf-8"></script>
     </body>
 </html>
