@@ -4,6 +4,7 @@ const transactions = require('./transactions.js');
 const http = require('http');
 
 const addMoneyButton = document.getElementById('addMoney');
+const removeMoneyButton = document.getElementById('removeMoney');
 
 var postData = {
     'unique_id' : remote.store.get('unique_id'),
@@ -49,6 +50,11 @@ var options = {
   addMoneyButton.addEventListener('click', function(){
     var funds = document.getElementById('moneyToAdd').value;
     var answer = transactions.addMoney('add', funds);
+  })
+
+  removeMoneyButton.addEventListener('click', function(){
+    var funds = document.getElementById('moneyToRemove').value;
+    var answer = transactions.addMoney('withdraw', funds);
   })
 
   function setValues(response){
