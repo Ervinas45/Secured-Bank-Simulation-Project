@@ -72,7 +72,7 @@ public class Server {
             		req.put("token", token);
             	}
             }
-            if(req.containsKey("unique_id") && req.containsKey("token")){
+            if(req.containsKey("unique_id") && req.containsKey("token") && req.size() == 2){
             	String id = req.getString("unique_id");
             	String token = req.getString("token");
             	System.out.println("Checking token");
@@ -84,6 +84,22 @@ public class Server {
             	}
             	else{
             		req = DatabaseComm.getData(id);
+            	}
+            }
+            if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("add") && req.size() == 3){
+            	String token = req.getString("token");
+            	Boolean validation = verifyToken(req.getString("unique_id"), token);
+            	System.out.println("MONEY ADD");
+            	if(validation == false){
+            		req.clear();
+            		req.put("answer", validation);
+            		System.out.println("False in add");
+            	}
+            	else{
+                	int funds = Integer.parseInt(req.getString("add"));
+                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                	req = DatabaseComm.addFunds(uniqueid, funds);
+                	System.out.println("Money added");
             	}
             }
             
