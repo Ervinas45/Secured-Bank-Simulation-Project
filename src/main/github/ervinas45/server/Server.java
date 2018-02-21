@@ -118,6 +118,22 @@ public class Server {
                 	System.out.println("Money withdrawed");
             	}
             }
+            if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("loan") && req.size() == 3){
+            	String token = req.getString("token");
+            	Boolean validation = verifyToken(req.getString("unique_id"), token);
+            	System.out.println("LOAN");
+            	if(validation == false){
+            		req.clear();
+            		req.put("answer", validation);
+            		System.out.println("False to add loan");
+            	}
+            	else{
+                	int loanToAdd = Integer.parseInt(req.getString("loan"));
+                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                	req = DatabaseComm.addLoan(uniqueid, loanToAdd);
+                	System.out.println("Loan added");
+            	}
+            }
             
             Headers headers = he.getResponseHeaders();
             headers.add("Content-Type", "application/json");
