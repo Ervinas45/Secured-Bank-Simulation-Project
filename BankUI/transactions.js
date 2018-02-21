@@ -2,7 +2,7 @@ const remote = require('./renderer.js');
 const http = require('http');
 
 
-function addMoney(key, value){
+function transaction(key, value){
 
     var postData = {}
 
@@ -49,4 +49,4 @@ function addMoney(key, value){
       req.end();
 }
 
-module.exports.addMoney = addMoney;
+module.exports.transaction = transaction;

@@ -5,6 +5,8 @@ const http = require('http');
 
 const addMoneyButton = document.getElementById('addMoney');
 const removeMoneyButton = document.getElementById('removeMoney');
+const loanAddButton = document.getElementById('addLoan');
+const payLoanButton = document.getElementById('removeMoney');
 
 var postData = {
     'unique_id' : remote.store.get('unique_id'),
@@ -49,14 +51,19 @@ var options = {
 
   addMoneyButton.addEventListener('click', function(){
     var funds = document.getElementById('moneyToAdd').value;
-    var answer = transactions.addMoney('add', funds);
+    var answer = transactions.transaction('add', funds);
   })
 
   removeMoneyButton.addEventListener('click', function(){
     var funds = document.getElementById('moneyToRemove').value;
-    var answer = transactions.addMoney('withdraw', funds);
+    var answer = transactions.transaction('withdraw', funds);
   })
 
+  loanAddButton.addEventListener('click', function(){
+    var loanToAdd = document.getElementById('loanToTake').value;
+    var answer = transactions.transaction('loan', loanToAdd);
+  })
+  
   function setValues(response){
     document.getElementById('name').innerHTML = response.name;
     document.getElementById('name_lastname').innerHTML = response.name + ' ' + response.lastname;
