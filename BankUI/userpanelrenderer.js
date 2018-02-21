@@ -1,4 +1,5 @@
 const remote = require('./renderer.js');
+const functions = require('./functions.js');
 const http = require('http');
 
 console.log(remote.store.get('unique_id'));
@@ -55,4 +56,14 @@ var options = {
     document.getElementById('funds').innerHTML = response.funds;
     document.getElementById('dept').innerHTML = response.dept;
 
+  }
+
+  function logout(parameter){
+    remote.store.set('token', null);
+    remote.store.set('unique_id', null);
+    functions.checkResponse(parameter);
+  }
+
+  function refresh(parameter){
+    location.reload();
   }
