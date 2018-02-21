@@ -6,7 +6,7 @@ const http = require('http');
 const addMoneyButton = document.getElementById('addMoney');
 const removeMoneyButton = document.getElementById('removeMoney');
 const loanAddButton = document.getElementById('addLoan');
-const payLoanButton = document.getElementById('removeMoney');
+const payLoanButton = document.getElementById('payLoan');
 
 var postData = {
     'unique_id' : remote.store.get('unique_id'),
@@ -64,6 +64,21 @@ var options = {
     var answer = transactions.transaction('loan', loanToAdd);
   })
   
+  payLoanButton.addEventListener('click', function(){
+    var dept = document.getElementById('dept').innerHTML;
+    var currentMoney = document.getElementById('funds').innerHTML;
+    console.log(currentMoney);
+    if(dept > currentMoney){
+      alert('Your current balance is not higher then current dept! Transaction refused.');
+    }
+    if(dept == 0 && currentMoney == 0){
+      alert('Your current balance is not higher then current dept! Transaction refused.');
+    }
+    if(dept <= currentMoney && dept != 0 && currentMoney != 0){
+      transactions.transaction('dept', dept);
+    }
+  })
+
   function setValues(response){
     document.getElementById('name').innerHTML = response.name;
     document.getElementById('name_lastname').innerHTML = response.name + ' ' + response.lastname;
