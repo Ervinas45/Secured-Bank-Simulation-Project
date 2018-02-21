@@ -121,17 +121,34 @@ public class Server {
             if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("loan") && req.size() == 3){
             	String token = req.getString("token");
             	Boolean validation = verifyToken(req.getString("unique_id"), token);
-            	System.out.println("LOAN");
+            	System.out.println("LOAN ADD");
             	if(validation == false){
             		req.clear();
             		req.put("answer", validation);
-            		System.out.println("False to add loan");
+            		System.out.println("False in add LOAN");
             	}
             	else{
                 	int loanToAdd = Integer.parseInt(req.getString("loan"));
                 	int uniqueid = Integer.parseInt(req.getString("unique_id"));
                 	req = DatabaseComm.addLoan(uniqueid, loanToAdd);
-                	System.out.println("Loan added");
+                	System.out.println("Money added");
+            	}
+            }
+            if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("dept") && req.size() == 3){
+            	String token = req.getString("token");
+            	Boolean validation = verifyToken(req.getString("unique_id"), token);
+            	System.out.println("DEPT REMOVE");
+            	if(validation == false){
+            		req.clear();
+            		req.put("answer", validation);
+            		System.out.println("False in remove");
+            	}
+            	else{
+                	int dept = Integer.parseInt(req.getString("dept"));
+                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                	req = DatabaseComm.withdrawFunds(uniqueid, dept);
+                	DatabaseComm.removeLoan(uniqueid);
+                	System.out.println("DEPT REMOVED");
             	}
             }
             

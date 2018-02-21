@@ -155,4 +155,19 @@ public class DatabaseComm {
         response.put("answer", "true");
 		return response;
 	}
+	
+	public static void removeLoan(int uniqueid){
+        Connection conn;
+        PreparedStatement preparedStmt;
+		try {
+			conn = DriverManager.getConnection(MYSQL_URL);
+	        preparedStmt = conn.prepareStatement("UPDATE `user_bank_account` SET `dept`= 0  WHERE user_unique_id = ?");
+	        preparedStmt.setInt(1, uniqueid);
+	        preparedStmt.executeUpdate();
+
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+//			e.printStackTrace();
+		}
+	}
 }
