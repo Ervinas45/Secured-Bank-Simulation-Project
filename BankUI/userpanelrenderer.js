@@ -90,8 +90,8 @@ var options = {
 
   loanAddButton.addEventListener('click', function(){
     var loanToAdd = document.getElementById('loanToTake').value;
-    if(regex.test(funds) == true){
-      if(funds < 0 || funds == 0){
+    if(regex.test(loanToAdd) == true){
+      if(loanToAdd < 0 || loanToAdd == 0){
         alert("Entered value is below or equal to 0! Refused transaction!");
       }
       else{
