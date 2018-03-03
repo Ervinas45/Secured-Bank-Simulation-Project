@@ -96,10 +96,16 @@ public class Server {
             		System.out.println("False in add");
             	}
             	else{
-                	int funds = Integer.parseInt(req.getString("add"));
-                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
-                	req = DatabaseComm.addFunds(uniqueid, funds);
-                	System.out.println("Money added");
+            		if(isNumericAndNotNegative(req.getString("add")) && req.getString("add").charAt(0) != '0'){
+                    	int funds = Integer.parseInt(req.getString("add"));
+                    	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                    	req = DatabaseComm.addFunds(uniqueid, funds);
+                    	System.out.println("Money added");
+            		}
+            		else{
+            			req.clear();
+            			req.put("answer", "false");
+            		}
             	}
             }
             if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("withdraw") && req.size() == 3){
@@ -112,10 +118,23 @@ public class Server {
             		System.out.println("False in remove");
             	}
             	else{
-                	int funds = Integer.parseInt(req.getString("withdraw"));
-                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
-                	req = DatabaseComm.withdrawFunds(uniqueid, funds);
-                	System.out.println("Money withdrawed");
+            		if(isNumericAndNotNegative(req.getString("withdraw")) && req.getString("withdraw").charAt(0) != '0'){
+                    	int funds = Integer.parseInt(req.getString("withdraw"));
+                    	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                    	int currentMoney = DatabaseComm.getMoney(uniqueid);
+                    	if(currentMoney < funds){
+                    		req.clear();
+                			req.put("answer", "false");
+                    	}
+                    	else{
+                        	req = DatabaseComm.withdrawFunds(uniqueid, funds);
+                        	System.out.println("Money withdrawed");
+                    	}
+            		}
+            		else{
+            			req.clear();
+            			req.put("answer", "false");
+            		}
             	}
             }
             if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("loan") && req.size() == 3){
@@ -128,10 +147,17 @@ public class Server {
             		System.out.println("False in add LOAN");
             	}
             	else{
-                	int loanToAdd = Integer.parseInt(req.getString("loan"));
-                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
-                	req = DatabaseComm.addLoan(uniqueid, loanToAdd);
-                	System.out.println("Money added");
+            		if(isNumericAndNotNegative(req.getString("loan")) && req.getString("loan").charAt(0) != '0'){
+                    	int loanToAdd = Integer.parseInt(req.getString("loan"));
+                    	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                    	req = DatabaseComm.addLoan(uniqueid, loanToAdd);
+                    	System.out.println("Money added");
+            		}
+            		else{
+            			req.clear();
+            			req.put("answer", "false");
+            		}
+
             	}
             }
             if(req.containsKey("unique_id") && req.containsKey("token") && req.containsKey("dept") && req.size() == 3){
@@ -144,11 +170,25 @@ public class Server {
             		System.out.println("False in remove");
             	}
             	else{
-                	int dept = Integer.parseInt(req.getString("dept"));
-                	int uniqueid = Integer.parseInt(req.getString("unique_id"));
-                	req = DatabaseComm.withdrawFunds(uniqueid, dept);
-                	DatabaseComm.removeLoan(uniqueid);
-                	System.out.println("DEPT REMOVED");
+            		if(isNumericAndNotNegative(req.getString("dept")) && req.getString("dept").charAt(0) != '0'){
+                    	int dept = Integer.parseInt(req.getString("dept"));
+                    	int uniqueid = Integer.parseInt(req.getString("unique_id"));
+                    	System.out.println("DEPT REMOVED");
+                    	int currentMoney = DatabaseComm.getMoney(uniqueid);
+                    	if(currentMoney < dept){
+                    		req.clear();
+                			req.put("answer", "false");
+                    	}
+                    	else{
+                        	req = DatabaseComm.withdrawFunds(uniqueid, dept);
+                        	DatabaseComm.removeLoan(uniqueid);
+                        	System.out.println("Loan removed");
+                    	}
+            		}
+            		else{
+            			req.clear();
+            			req.put("answer", "false");
+            		}
             	}
             }
             
@@ -163,6 +203,22 @@ public class Server {
         }
 	}
 	
+	public static boolean isNumericAndNotNegative(String str)  
+	{  
+	  boolean answer = true;
+	  try  
+	  {  
+	    double d = Double.parseDouble(str);  
+	    if(d < 0 || d == 0){
+	    	answer = false;
+	    }
+	  }  
+	  catch(NumberFormatException nfe)  
+	  {  
+	    return false;  
+	  }  
+	  return answer;  
+	}
 //	public static JSONObject userCheck(JSONObject req){
 //     
 //        String uniqueID =  (String) req.get("unique_id");
