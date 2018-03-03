@@ -61,9 +61,15 @@ function sendRequest(variable){
         functions.checkResponse("token");
       }
       else{
-        Response = response.answer;
-        console.log(Response);
-        functions.checkResponse(Response);
+        if(response.answer == "false"){
+          document.getElementById("notfound-id").innerHTML = "Incorrect";
+        }
+        if(response.answer == "true"){
+          Response = response.answer;
+          console.log(Response);
+          functions.checkResponse(Response);
+        }
+
       }
 
     });
