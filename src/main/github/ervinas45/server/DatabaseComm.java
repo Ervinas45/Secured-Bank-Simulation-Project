@@ -170,4 +170,24 @@ public class DatabaseComm {
 //			e.printStackTrace();
 		}
 	}
+	
+	public static int getMoney(int uniqueid){
+		Connection conn;
+		PreparedStatement preparedStmt;
+		ResultSet rs;
+		try {
+			conn = DriverManager.getConnection(MYSQL_URL);
+			preparedStmt = conn.prepareStatement("SELECT funds FROM user_bank_account WHERE user_unique_id = ?");
+	        preparedStmt.setInt(1, uniqueid);
+	        rs = preparedStmt.executeQuery();
+	        int tempMoney = 0;
+	        while (rs.next()) {
+	            tempMoney = rs.getInt("funds");
+	        }
+	        return tempMoney;
+		} catch (SQLException e) {
+			System.out.println("Error: " + e.getMessage());
+		}
+		return 0;
+	}
 }
