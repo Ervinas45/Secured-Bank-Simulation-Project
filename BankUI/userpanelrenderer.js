@@ -8,6 +8,9 @@ const removeMoneyButton = document.getElementById('removeMoney');
 const loanAddButton = document.getElementById('addLoan');
 const payLoanButton = document.getElementById('payLoan');
 
+var regex = /^(?:[1-9]\d*|\d)$/;
+
+
 var postData = {
     'unique_id' : remote.store.get('unique_id'),
     'token' : remote.store.get('token')
@@ -51,31 +54,71 @@ var options = {
 
   addMoneyButton.addEventListener('click', function(){
     var funds = document.getElementById('moneyToAdd').value;
-    var answer = transactions.transaction('add', funds);
+    if(regex.test(funds) == true){
+      if(funds < 0 || funds == 0){
+        alert("Entered value is below or equal to 0! Refused transaction!");
+      }
+      else{
+        var answer = transactions.transaction('add', funds);
+      }
+    }
+    else{
+      alert("Only Integer values are acceptable and no leading zero : 0xxxx!");
+    }
   })
 
   removeMoneyButton.addEventListener('click', function(){
-    var funds = document.getElementById('moneyToRemove').value;
-    var answer = transactions.transaction('withdraw', funds);
+    var funds = parseInt(document.getElementById('moneyToRemove').value);
+    var currentMoney = parseInt(document.getElementById('funds').innerHTML);
+    if(regex.test(funds) == true){
+      if(funds < 0 || funds == 0){
+        alert("Entered value is below or equal to 0! Refused transaction!");
+      }
+      else{
+        if(currentMoney > funds){
+          var answer = transactions.transaction('withdraw', funds);
+        }
+        else{
+          alert("Transaction refused, you don't have money to withdraw");
+        }
+      }
+    }
+    else{
+      alert("Only Integer values are acceptable and no leading zero : 0xxxx!");
+    }   
   })
 
   loanAddButton.addEventListener('click', function(){
     var loanToAdd = document.getElementById('loanToTake').value;
-    var answer = transactions.transaction('loan', loanToAdd);
+    if(regex.test(funds) == true){
+      if(funds < 0 || funds == 0){
+        alert("Entered value is below or equal to 0! Refused transaction!");
+      }
+      else{
+        var answer = transactions.transaction('loan', loanToAdd);
+      }
+    }
+    else{
+      alert("Only Integer values are acceptable and no leading zero : 0xxxx!");
+    }      
   })
   
   payLoanButton.addEventListener('click', function(){
-    var dept = document.getElementById('dept').innerHTML;
-    var currentMoney = document.getElementById('funds').innerHTML;
-    console.log(currentMoney);
+    var dept = parseInt(document.getElementById('dept').innerHTML);
+    var currentMoney = parseInt(document.getElementById('funds').innerHTML);
     if(dept > currentMoney){
+      console.log("1");
       alert('Your current balance is not higher then current dept! Transaction refused.');
     }
     if(dept == 0 && currentMoney == 0){
+      console.log("2");
       alert('Your current balance is not higher then current dept! Transaction refused.');
     }
     if(dept <= currentMoney && dept != 0 && currentMoney != 0){
       transactions.transaction('dept', dept);
+    }
+    if(dept == 0){
+      alert('Your current dept balance is 0! Transaction refused.');
     }
   })
 
