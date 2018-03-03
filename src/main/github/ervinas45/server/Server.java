@@ -71,6 +71,10 @@ public class Server {
             		req.clear();
             		req.put("token", token);
             	}
+            	else{
+            		req.clear();
+            		req.put("answer", "false");
+            	}
             }
             if(req.containsKey("unique_id") && req.containsKey("token") && req.size() == 2){
             	String id = req.getString("unique_id");
